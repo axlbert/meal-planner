@@ -1,7 +1,25 @@
+import { combineReducers } from 'redux'
+
 import {
 	ADD_RECIPE,
 	REMOVE_FROM_CALENDAR
 } from '../actions'
+
+
+function food (state = {}, action) {
+	switch(action.type){
+		case ADD_RECIPE :
+			const { recipe } = action
+
+			return {
+			//returns whatever the previous state was plus changes to []
+				...state,
+				[recipe.label] : recipe
+			}
+		default :
+			return state
+	}
+}
 
 const initialCalendarState = {
   sunday: {
@@ -67,4 +85,8 @@ function calendar(state = initialCalendarState, action){
 	}
 }
 
-export default calendar
+//this also requires changes to app.js mapstatetoprops ({calendar, food})
+export default combineReducers({
+	food,
+	calendar,
+})
